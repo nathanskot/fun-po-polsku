@@ -1,0 +1,34 @@
+<div>
+  <h3>Parameters</h3>
+  <mat-form-field style="padding: 5px;">
+    <mat-label>Word type</mat-label>
+    <mat-select [formControl]="selectedWordTypes" multiple>
+      <mat-option value="any" (cdkObserveContent)="onChooseAny(selectedWordTypes)" [disabled]="disabledAny">
+        Any
+      </mat-option>
+      <mat-optgroup label="Types">
+        @for (wordType of wordTypesStr; track wordType) {
+          <mat-option [value]="wordType" (cdkObserveContent)="onChooseFilter(selectedWordTypes)">
+            {{ wordType | titlecase }}
+          </mat-option>
+        }
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field style="padding: 5px; width: 600px;">
+    <mat-label>Declension case</mat-label>
+    <mat-select [formControl]="selectedCaseTypes" multiple>
+      <mat-option value="any" (cdkObserveContent)="onChooseAny(selectedCaseTypes)" [disabled]="disabledAny">
+        Any
+      </mat-option>
+      <mat-optgroup label="Cases">
+        @for (caseType of caseTypesStr; track caseType) {
+          <mat-option [value]="caseType" (cdkObserveContent)="onChooseFilter(selectedCaseTypes)">
+            {{ caseType | titlecase }}
+          </mat-option>
+        }
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+</div>
+<button (click)="onLaunchGame()">Launch game!</button>

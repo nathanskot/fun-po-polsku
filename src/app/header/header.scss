@@ -1,0 +1,32 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  text-align: center;
+  background-color: #EEE;
+  margin-bottom: 20px;
+  margin: 0;
+  padding: 10px;
+}
+
+a {
+  margin: 0 10px;
+  color: #333;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.active {
+  color: #666;
+  text-decoration: underline;
+}
+
+button {
+  position: fixed;
+  right: 5px;
+  top: 10px;
+  z-index: 1001;
+  background-color: white;
+}

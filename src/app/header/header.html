@@ -1,0 +1,12 @@
+@if (!shrinked) {
+  <header>
+      <h1>Fun po polsku!</h1>
+    <nav>
+      <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="declension" routerLinkActive="active">Declension</a>
+    </nav>
+  </header>
+  <button style="background-color: white" (click)="onShrink()">Shrink</button>
+} @else {
+  <button style="background-color: #EEE" (click)="onShrink()">Expand</button>
+}

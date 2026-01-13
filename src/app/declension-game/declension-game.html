@@ -1,34 +1,80 @@
-<div>
+@if (!gameLaunched) {
   <h3>Parameters</h3>
-  <mat-form-field style="padding: 5px;">
-    <mat-label>Word type</mat-label>
-    <mat-select [formControl]="selectedWordTypes" multiple>
-      <mat-option value="any" (cdkObserveContent)="onChooseAny(selectedWordTypes)" [disabled]="disabledAny">
-        Any
-      </mat-option>
-      <mat-optgroup label="Types">
-        @for (wordType of wordTypesStr; track wordType) {
-          <mat-option [value]="wordType" (cdkObserveContent)="onChooseFilter(selectedWordTypes)">
-            {{ wordType | titlecase }}
-          </mat-option>
+  <form [formGroup]="filtersForm" (ngSubmit)="onLaunchGame()">
+    <mat-form-field>
+      <mat-label for="word-types">Word type</mat-label>
+      <mat-select id="word-types" formControlName="wordTypes" style="float: left;" multiple>
+        <mat-option value="any" (cdkObserveContent)="onChooseAny(filtersForm.controls.wordTypes)" [disabled]="disabledAny">
+          Any
+        </mat-option>
+        <mat-optgroup label="Types">
+          @for (wordType of wordTypesStr; track wordType) {
+            <mat-option [value]="wordType" (cdkObserveContent)="onChooseFilter(filtersForm.controls.wordTypes)">
+              {{ wordType | titlecase }}
+            </mat-option>
+          }
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field style="width: 600px;">
+      <mat-label for="case-types">Declension case</mat-label>
+      <mat-select id="case-types" formControlName="caseTypes" style="float: left;" multiple>
+        <mat-option value="any" (cdkObserveContent)="onChooseAny(filtersForm.controls.caseTypes)" [disabled]="disabledAny">
+          Any
+        </mat-option>
+        <mat-optgroup label="Cases">
+          @for (caseType of caseTypesStr; track caseType) {
+            <mat-option [value]="caseType" (cdkObserveContent)="onChooseFilter(filtersForm.controls.caseTypes)">
+              {{ caseType | titlecase }}
+            </mat-option>
+          }
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label for="question-amount">Questions (max: 20)</mat-label>
+      <input id="question-amount" matInput formControlName="questionAmount" style="float: left;">
+    </mat-form-field>
+    
+    @let wordTypes = filtersForm.controls.wordTypes;
+    @if (wordTypes.invalid && (wordTypes.dirty || wordTypes.touched)) {
+      <div class="alert">
+        @if (wordTypes.hasError('required')) {
+          <div>Word types are required</div>
         }
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field style="padding: 5px; width: 600px;">
-    <mat-label>Declension case</mat-label>
-    <mat-select [formControl]="selectedCaseTypes" multiple>
-      <mat-option value="any" (cdkObserveContent)="onChooseAny(selectedCaseTypes)" [disabled]="disabledAny">
-        Any
-      </mat-option>
-      <mat-optgroup label="Cases">
-        @for (caseType of caseTypesStr; track caseType) {
-          <mat-option [value]="caseType" (cdkObserveContent)="onChooseFilter(selectedCaseTypes)">
-            {{ caseType | titlecase }}
-          </mat-option>
+      </div>
+    }
+
+    @let caseTypes = filtersForm.controls.caseTypes;
+    @if (caseTypes.invalid && (caseTypes.dirty || caseTypes.touched)) {
+      <div class="alert">
+        @if (caseTypes.hasError('required')) {
+          <div>Word types are required</div>
         }
-      </mat-optgroup>
-    </mat-select>
-  </mat-form-field>
-</div>
-<button (click)="onLaunchGame()">Launch game!</button>
+      </div>
+    }
+    
+    @let questionAmount = filtersForm.controls.questionAmount;
+    @if (questionAmount.invalid && (questionAmount.dirty || questionAmount.touched)) {
+      <div class="alert">
+        @if (questionAmount.hasError('required')) {
+          <div>Question amount is required</div>
+        }
+        @if (questionAmount.hasError('pattern')) {
+          <div>Question amount must be a positive number</div>
+        }
+        @if (questionAmount.hasError('max')) {
+          <div>Question amount must be 20 or less</div>
+        }
+      </div>
+    }
+
+    <div>
+      <button type="submit" [disabled]="filtersForm.invalid">Launch game!</button>
+    </div>
+  </form>
+} @else {
+  <button (click)="onExitGame()">Exit game</button>
+}

@@ -1,4 +1,6 @@
 @if (!gameLaunched) {
+  <h3>Rules</h3>
+  <p>Select an answer with up/down arrows. Speed up with left arrow.</p>
   <h3>Parameters</h3>
   <form [formGroup]="filtersForm" (ngSubmit)="onLaunchGame()">
     <mat-form-field>
@@ -76,5 +78,6 @@
     </div>
   </form>
 } @else {
+  <app-declension-session [wordList]="wordList" [filters]="filters" />
   <button (click)="onExitGame()">Exit game</button>
 }

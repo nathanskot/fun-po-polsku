@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Word } from '../models/word';
-import { DeclensionService } from '../services/declension.service';
-import { caseTypes } from '../models/case-type.type';
-import { wordTypes } from '../models/word-type.type';
-import { TitleCasePipe } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
 import { CdkObserveContent } from "@angular/cdk/observers";
+import { TitleCasePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { DECLENSION_DEFAULT_QUESTION_AMOUNT, DECLENSION_MAX_QUESTIONS } from '../app.constants';
+import { DeclensionSession } from "../declension-session/declension-session";
+import { caseTypeLabels } from '../models/case-type.type';
+import { Word } from '../models/word';
+import { wordTypeLabels } from '../models/word-type.type';
+import { DictionaryService } from '../services/dictionary.service';
 
 @Component({
   selector: 'app-declension-game',
@@ -21,17 +22,23 @@ import { DECLENSION_DEFAULT_QUESTION_AMOUNT, DECLENSION_MAX_QUESTIONS } from '..
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    CdkObserveContent
+    CdkObserveContent,
+    DeclensionSession
 ],
   templateUrl: './declension-game.html',
   styleUrl: './declension-game.scss',
 })
-export class DeclensionGame implements OnInit {
+export class DeclensionGame {
 
-  caseTypesStr = Object.keys(caseTypes);
-  wordTypesStr = Object.keys(wordTypes);
+  caseTypesStr = Object.keys(caseTypeLabels);
+  wordTypesStr = Object.keys(wordTypeLabels);
 
-  wordList!: Word[];
+  wordList: Word[] = [];
+  filters!: {
+    wordTypes: string[],
+    caseTypes: string[],
+    questionAmount: number
+  };
 
   filtersForm = new FormGroup({
     wordTypes: new FormControl(['any'], [ Validators.required ]),
@@ -49,13 +56,9 @@ export class DeclensionGame implements OnInit {
   disabledAny: boolean = true;
   gameLaunched: boolean = false;
 
-  constructor(private declensionService: DeclensionService) {}
-  
-  ngOnInit(): void {
-    this.wordList = this.declensionService.getFilteredWordList();
-  }
+  constructor(private dictionaryService: DictionaryService) {}
 
-  onChooseAny(formControl: FormControl<string[] | null>) {
+  onChooseAny(formControl: FormControl<string[] | null>): void {
     if (!formControl.value)
       return;
 
@@ -64,7 +67,7 @@ export class DeclensionGame implements OnInit {
     }
   }
 
-  onChooseFilter(formControl: FormControl<string[] | null>) {
+  onChooseFilter(formControl: FormControl<string[] | null>): void {
     if (!formControl.value)
       return;
 
@@ -77,11 +80,20 @@ export class DeclensionGame implements OnInit {
     }
   }
 
-  onLaunchGame() {
-    console.log(`Selected word types: ${this.filtersForm.controls.wordTypes.value}`);
-    console.log(`Selected cases: ${this.filtersForm.controls.caseTypes.value}`);
-    console.log(`Selected amount of questions: ${this.filtersForm.controls.questionAmount.value}`);
+  onLaunchGame(): void {
+    this.filters = {
+      wordTypes:      this.filtersForm.controls.wordTypes.value!,
+      caseTypes:      this.filtersForm.controls.caseTypes.value!,
+      questionAmount: this.filtersForm.controls.questionAmount.value!
+    }
+
+    this.wordList = this.dictionaryService.getFilteredWordList(this.filters.questionAmount);
+
     this.gameLaunched = true;
+    console.log(`Game launched with:`);
+    console.log(`Word types: ${this.filters.wordTypes}`);
+    console.log(`Case types: ${this.filters.caseTypes}`);
+    console.log(`Question amount: ${this.filters.questionAmount}`);
   }
 
   onExitGame() {

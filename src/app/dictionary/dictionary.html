@@ -1,0 +1,32 @@
+<h1>Dictionary</h1>
+@for (word of words; track word) {
+  <mat-card appearance="outlined" style="margin: 8px; width: 40%;">
+    <mat-card-header>
+      <mat-card-title>{{ word.str }}</mat-card-title>
+      <mat-card-subtitle>{{ word.translation }}</mat-card-subtitle>
+      <mat-card-actions>
+        <!-- TODO When login system is available, add possibility to save words -->
+        <button matButton style="position: absolute; top: 10px; right: 0;">SAVE</button>
+      </mat-card-actions>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="word.declension.toArray()" class="mat-elevation-z8" style="width: auto; margin: 5px;">
+        <ng-container matColumnDef="cases">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let caseDeclension"> {{ caseDeclension.getCaseType() | titlecase }} </td>
+        </ng-container>
+        <ng-container matColumnDef="singular">
+          <th mat-header-cell *matHeaderCellDef> Singular </th>
+          <td mat-cell *matCellDef="let caseDeclension"> {{ word.declension.radical + caseDeclension.singular }} </td>
+        </ng-container>
+        <ng-container matColumnDef="plural">
+          <th mat-header-cell *matHeaderCellDef> Plural </th>
+          <td mat-cell *matCellDef="let caseDeclension"> {{ word.declension.radical + caseDeclension.plural }} </td>
+        </ng-container>
+        @let displayedColums = ['cases', 'singular', 'plural'];
+        <tr mat-header-row *matHeaderRowDef="displayedColums"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColums;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+}

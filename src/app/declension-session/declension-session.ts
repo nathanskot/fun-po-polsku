@@ -1,9 +1,12 @@
 import { Component, input } from '@angular/core';
 import { Word } from '../models/word';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-declension-session',
-  imports: [],
+  imports: [
+    MatButtonModule
+  ],
   templateUrl: './declension-session.html',
   styleUrl: './declension-session.scss',
 })

@@ -74,10 +74,10 @@
     }
 
     <div>
-      <button type="submit" [disabled]="filtersForm.invalid">Launch game!</button>
+      <button matButton="outlined" type="submit" [disabled]="filtersForm.invalid">Launch game!</button>
     </div>
   </form>
 } @else {
-  <app-declension-session [wordList]="wordList" [filters]="filters" />
-  <button (click)="onExitGame()">Exit game</button>
+  <app-declension-session [sessionWordList]="sessionWordList" [filters]="filters" />
+  <button matButton="outlined" (click)="onExitGame()">Exit game</button>
 }

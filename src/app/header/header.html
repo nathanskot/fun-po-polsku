@@ -7,7 +7,7 @@
       <a routerLink="dictionary" routerLinkActive="active">Dictionary</a>
     </nav>
   </header>
-  <button style="background-color: white" (click)="onShrink()">Shrink</button>
+  <button matButton="outlined" style="background-color: white" (click)="onShrink()">Shrink</button>
 } @else {
-  <button style="background-color: #EEE" (click)="onShrink()">Expand</button>
+  <button matButton="outlined" style="background-color: #EEE" (click)="onShrink()">Expand</button>
 }

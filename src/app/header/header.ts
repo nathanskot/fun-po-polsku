@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    MatButtonModule
 ],
   templateUrl: './header.html',
   styleUrl: './header.scss',

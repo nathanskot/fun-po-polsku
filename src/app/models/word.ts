@@ -7,4 +7,11 @@ export class Word {
               public translation: string,
               public type: WordType,
               public declension: Declension) {}
+
+  toString(): string {
+    return `
+      ${this.str} (${this.type}): ${this.translation}\n
+      ${this.declension}
+    `;
+  }
 }

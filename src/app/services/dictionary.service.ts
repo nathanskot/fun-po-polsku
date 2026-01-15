@@ -7,7 +7,7 @@ import { WordType } from "../models/word-type.type";
 @Injectable({
   providedIn: 'root'
 })
-export class DeclensionService {
+export class DictionaryService {
 
   private words: Word[] = [
     new Word(
@@ -57,10 +57,10 @@ export class DeclensionService {
     ),
   ];
 
-  getFilteredWordList(wordType?: WordType): Word[] {
+  getFilteredWordList(amount?: number, wordType?: WordType): Word[] {
     
     return this.words.filter(
       word => wordType ? word.type === wordType : true
-    )
+    ).slice(0, amount);
   }
 }

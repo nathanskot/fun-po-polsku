@@ -6,7 +6,7 @@ export type CaseType = 'nominative'
                      | 'locative'
                      | 'vocative';
 
-export const caseTypes: { [caseTypeStr: string]: CaseType } = {
+export const caseTypeLabels: { [caseTypeStr: string]: CaseType } = {
   'nominative': 'nominative',
   'genitive': 'genitive',
   'dative': 'dative',

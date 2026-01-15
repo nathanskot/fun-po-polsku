@@ -18,4 +18,32 @@ export class Declension {
     this.locative.setCaseType('locative');
     this.vocative.setCaseType('vocative');
   }
+
+  toString(): string {
+    return `
+      ${this.caseToString(this.nominative)}\n
+      ${this.caseToString(this.genitive)}\n
+      ${this.caseToString(this.dative)}\n
+      ${this.caseToString(this.accusative)}\n
+      ${this.caseToString(this.instrumental)}\n
+      ${this.caseToString(this.locative)}\n
+      ${this.caseToString(this.vocative)}\n
+    `;
+  }
+
+  toArray(): CaseDeclension[] {
+    return [
+      this.nominative,
+      this.genitive,
+      this.dative,
+      this.accusative,
+      this.instrumental,
+      this.locative,
+      this.vocative
+    ];
+  }
+
+  private caseToString(caseDeclension: CaseDeclension): string {
+    return `${caseDeclension.getCaseType()}: ${this.radical + caseDeclension.singular}, ${this.radical + caseDeclension.plural}`;
+  }
 }

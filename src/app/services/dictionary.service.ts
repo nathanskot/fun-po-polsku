@@ -57,10 +57,21 @@ export class DictionaryService {
     ),
   ];
 
-  getFilteredWordList(amount?: number, wordType?: WordType): Word[] {
+  getFilteredWordList(wordList?: Word[], amount?: number, wordTypes?: WordType[]): Word[] {
+    if (!wordList)
+      wordList = this.words;
     
-    return this.words.filter(
-      word => wordType ? word.type === wordType : true
-    ).slice(0, amount);
+    return wordList
+      .filter(word => wordTypes ? wordTypes.includes(word.type) : true)
+      .slice(0, amount);
+  }
+
+  getRandomizedFilteredWordList(wordList?: Word[], amount?: number, wordTypes?: WordType[]): Word[] {
+    if (!wordList)
+      wordList = this.words;
+
+    let randomizedWordList = [...wordList].sort(() => Math.random() - 0.5);
+
+    return this.getFilteredWordList(randomizedWordList, amount, wordTypes);
   }
 }

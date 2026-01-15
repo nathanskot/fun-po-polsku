@@ -1,4 +1,5 @@
 import { CaseType } from "./case-type.type";
+import { GrammaticalNumber } from "./grammatical-number.type";
 
 export class CaseDeclension {
 
@@ -13,5 +14,12 @@ export class CaseDeclension {
 
   setCaseType(caseType: CaseType): void {
     this._caseType = caseType;
+  }
+
+  getInflection(number: GrammaticalNumber): string {
+    if (number === 'singular')
+      return this.singular;
+    else
+      return this.plural;
   }
 }

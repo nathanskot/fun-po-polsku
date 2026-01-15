@@ -1,4 +1,5 @@
 import { CaseDeclension } from "./case-declension";
+import { CaseType } from "./case-type.type";
 
 export class Declension {
 
@@ -17,6 +18,10 @@ export class Declension {
     this.instrumental.setCaseType('instrumental');
     this.locative.setCaseType('locative');
     this.vocative.setCaseType('vocative');
+  }
+
+  getCaseDeclension(caseType: CaseType): CaseDeclension {
+    return this.toArray().filter(caseDeclension => caseDeclension.getCaseType() === caseType)[0];
   }
 
   toString(): string {

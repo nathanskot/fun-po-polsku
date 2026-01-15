@@ -1,16 +1,17 @@
 import { CdkObserveContent } from "@angular/cdk/observers";
 import { TitleCasePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { DECLENSION_DEFAULT_QUESTION_AMOUNT, DECLENSION_MAX_QUESTIONS } from '../app.constants';
 import { DeclensionSession } from "../declension-session/declension-session";
-import { caseTypeLabels } from '../models/case-type.type';
+import { CaseType, caseTypeLabels } from '../models/case-type.type';
 import { Word } from '../models/word';
-import { wordTypeLabels } from '../models/word-type.type';
+import { WordType, wordTypeLabels } from '../models/word-type.type';
 import { DictionaryService } from '../services/dictionary.service';
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: 'app-declension-game',
@@ -20,6 +21,7 @@ import { DictionaryService } from '../services/dictionary.service';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
     CdkObserveContent,
@@ -33,10 +35,10 @@ export class DeclensionGame {
   caseTypesStr = Object.keys(caseTypeLabels);
   wordTypesStr = Object.keys(wordTypeLabels);
 
-  wordList: Word[] = [];
+  sessionWordList: Word[] = [];
   filters!: {
-    wordTypes: string[],
-    caseTypes: string[],
+    wordTypes: WordType[],
+    caseTypes: CaseType[],
     questionAmount: number
   };
 
@@ -81,19 +83,42 @@ export class DeclensionGame {
   }
 
   onLaunchGame(): void {
+    let selectedWordTypeArray: WordType[] = [];
+    if (this.filtersForm.controls.wordTypes.value!.includes('any'))
+      selectedWordTypeArray = Object.values(wordTypeLabels);
+    else {
+      for (let wordType of this.filtersForm.controls.wordTypes.value!)
+        selectedWordTypeArray.push(wordTypeLabels[wordType]);
+    }
+
+    let selectedCaseTypeArray: CaseType[] = [];
+    if (this.filtersForm.controls.caseTypes.value!.includes('any'))
+      selectedCaseTypeArray = Object.values(caseTypeLabels);
+    else {
+      for (let caseType of this.filtersForm.controls.caseTypes.value!)
+        selectedCaseTypeArray.push(caseTypeLabels[caseType]);
+    }
+    
     this.filters = {
-      wordTypes:      this.filtersForm.controls.wordTypes.value!,
-      caseTypes:      this.filtersForm.controls.caseTypes.value!,
+      wordTypes:      selectedWordTypeArray,
+      caseTypes:      selectedCaseTypeArray,
       questionAmount: this.filtersForm.controls.questionAmount.value!
     }
 
-    this.wordList = this.dictionaryService.getFilteredWordList(this.filters.questionAmount);
+    this.sessionWordList = this.dictionaryService.getRandomizedFilteredWordList(
+      undefined,
+      this.filters.questionAmount,
+      selectedWordTypeArray
+    );
 
     this.gameLaunched = true;
-    console.log(`Game launched with:`);
+    console.log('Game launched with:');
     console.log(`Word types: ${this.filters.wordTypes}`);
     console.log(`Case types: ${this.filters.caseTypes}`);
     console.log(`Question amount: ${this.filters.questionAmount}`);
+    console.log('Session word list:');
+    for (let word of this.sessionWordList)
+      console.log(word.str);
   }
 
   onExitGame() {

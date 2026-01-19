@@ -1,0 +1,140 @@
+[
+  {
+    "title": "mężczyzna",
+    "translation": "man",
+    "type": "noun",
+    "singular": {
+      "nominative": "mężczyzna",
+      "genitive": "mężczyzny",
+      "dative": "mężczyźnie",
+      "accusative": "mężczyznę",
+      "instrumental": "mężczyzną",
+      "locative": "mężczyźnie",
+      "vocative": "mężczyzno"
+    },
+    "plural": {
+      "nominative": "mężczyźni",
+      "genitive": "mężczyzn",
+      "dative": "mężczyznom",
+      "accusative": "mężczyzn",
+      "instrumental": "mężczyznami",
+      "locative": "mężczyznach",
+      "vocative": "mężczyźni"
+    }
+  },
+  {
+    "title": "przypadek",
+    "translation": "(1) chance, accident; (2) case (declension); (3) event, case",
+    "type": "noun",
+    "singular": {
+      "nominative": "przypadek",
+      "genitive": "przypadku",
+      "dative": "przypadkowi",
+      "accusative": "przypadek",
+      "instrumental": "przypadkiem",
+      "locative": "przypadku",
+      "vocative": "przypadku"
+    },
+    "plural": {
+      "nominative": "przypadki",
+      "genitive": "przypadków",
+      "dative": "przypadkom",
+      "accusative": "przypadki",
+      "instrumental": "przypadkami",
+      "locative": "przypadkach",
+      "vocative": "przypadki"
+    }
+  },
+  {
+    "title": "chora",
+    "translation": "sick (feminine)",
+    "type": "adjective",
+    "singular": {
+      "nominative": "chora",
+      "genitive": "chorej",
+      "dative": "chorej",
+      "accusative": "chorą",
+      "instrumental": "chorą",
+      "locative": "chorej",
+      "vocative": "chora"
+    },
+    "plural": {
+      "nominative": "chore",
+      "genitive": "chorych",
+      "dative": "chorym",
+      "accusative": "chore",
+      "instrumental": "chorymi",
+      "locative": "chorych",
+      "vocative": "chore"
+    }
+  },
+  {
+    "title": "osoba",
+    "translation": "person",
+    "type": "noun",
+    "singular": {
+      "nominative": "osoba",
+      "genitive": "osoby",
+      "dative": "osobie",
+      "accusative": "osobie",
+      "instrumental": "osobą",
+      "locative": "osobie",
+      "vocative": "osobo"
+    },
+    "plural": {
+      "nominative": "osoby",
+      "genitive": "osób",
+      "dative": "osobom",
+      "accusative": "osoby",
+      "instrumental": "osobami",
+      "locative": "osobach",
+      "vocative": "osoby"
+    }
+  },
+  {
+    "title": "król",
+    "translation": "king",
+    "type": "noun",
+    "singular": {
+      "nominative": "król",
+      "genitive": "króla",
+      "dative": "królowi",
+      "accusative": "króla",
+      "instrumental": "królem",
+      "locative": "królu",
+      "vocative": "królu"
+    },
+    "plural": {
+      "nominative": "królowie",
+      "genitive": "królów",
+      "dative": "królom",
+      "accusative": "królów",
+      "instrumental": "królami",
+      "locative": "królach",
+      "vocative": "królowie"
+    }
+  },
+  {
+    "title": "wolny (animate)",
+    "translation": "(1) slow; (2) free",
+    "type": "adjective",
+    "singular": {
+      "nominative": "wolny",
+      "genitive": "wolnego",
+      "dative": "wolnemu",
+      "accusative": "wolnego",
+      "instrumental": "wolnym",
+      "locative": "wolnym",
+      "vocative": "wolny"
+    },
+    "plural": {
+      "nominative": "wolni",
+      "genitive": "wolnych",
+      "dative": "wolnym",
+      "accusative": "wolnych",
+      "instrumental": "wolnymi",
+      "locative": "wolnych",
+      "vocative": "wolni"
+    }
+  }
+]

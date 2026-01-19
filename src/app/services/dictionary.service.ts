@@ -3,6 +3,7 @@ import { Word } from "../models/word";
 import { Declension } from "../models/declension";
 import { CaseDeclension } from "../models/case-declension";
 import { WordType } from "../models/word-type.type";
+import { randomize } from "../app.utils";
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,7 @@ export class DictionaryService {
     if (!wordList)
       wordList = this.words;
 
-    let randomizedWordList = [...wordList].sort(() => Math.random() - 0.5);
+    let randomizedWordList = randomize(wordList);
 
     return this.getFilteredWordList(randomizedWordList, amount, wordTypes);
   }

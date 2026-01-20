@@ -8,9 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DECLENSION_DEFAULT_QUESTION_AMOUNT, DECLENSION_MAX_QUESTIONS } from '../app.constants';
 import { DeclensionSession } from "../declension-session/declension-session";
 import { CaseType, caseTypeLabels } from '../models/case-type.type';
-import { Word } from '../models/word';
 import { WordType, wordTypeLabels } from '../models/word-type.type';
-import { DictionaryService } from '../services/dictionary.service';
 import { MatButtonModule } from "@angular/material/button";
 
 @Component({
@@ -35,7 +33,6 @@ export class DeclensionGame {
   caseTypesStr = Object.keys(caseTypeLabels);
   wordTypesStr = Object.keys(wordTypeLabels);
 
-  sessionWordList: Word[] = [];
   filters!: {
     wordTypes: WordType[],
     caseTypes: CaseType[],
@@ -57,8 +54,6 @@ export class DeclensionGame {
   
   disabledAny: boolean = true;
   gameLaunched: boolean = false;
-
-  constructor(private dictionaryService: DictionaryService) {}
 
   onChooseAny(formControl: FormControl<string[] | null>): void {
     if (!formControl.value)
@@ -98,27 +93,19 @@ export class DeclensionGame {
       for (let caseType of this.filtersForm.controls.caseTypes.value!)
         selectedCaseTypeArray.push(caseTypeLabels[caseType]);
     }
-    
+
     this.filters = {
       wordTypes:      selectedWordTypeArray,
       caseTypes:      selectedCaseTypeArray,
       questionAmount: this.filtersForm.controls.questionAmount.value!
     }
 
-    this.sessionWordList = this.dictionaryService.getRandomizedFilteredWordList(
-      undefined,
-      this.filters.questionAmount,
-      selectedWordTypeArray
-    );
-
-    this.gameLaunched = true;
     console.log('Game launched with:');
     console.log(`Word types: ${this.filters.wordTypes}`);
     console.log(`Case types: ${this.filters.caseTypes}`);
     console.log(`Question amount: ${this.filters.questionAmount}`);
-    console.log('Session word list:');
-    for (let word of this.sessionWordList)
-      console.log(word.str);
+
+    this.gameLaunched = true;
   }
 
   onExitGame() {

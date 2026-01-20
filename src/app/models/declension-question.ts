@@ -32,8 +32,8 @@ export class DeclensionQuestion {
       do {
         choiceCaseType = Object.values(caseTypeLabels)[Math.floor(Math.random() * CASE_TYPE_AMOUNT)];
         choiceNumber = Math.random() < 0.5 ? 'singular' : 'plural' as GrammaticalNumber;
-        choiceInflectedWord = word.getInflectedWord(choiceCaseType, choiceNumber);
-      } while (inflectedWords.includes(choiceInflectedWord));
+        choiceInflectedWord = this.word.getInflectedWord(choiceCaseType, choiceNumber);
+      } while (inflectedWords.includes(choiceInflectedWord)); // To guarantee different options
 
       this.choices.push({
         caseType: choiceCaseType,

@@ -1,27 +1,55 @@
 import { CaseType } from "./case-type.type";
 import { Declension } from "./declension";
 import { GrammaticalNumber } from "./grammatical-number.type";
-import { WordType } from "./word-type.type";
+import { WordType, wordTypeLabels } from "./word-type.type";
 
 export class Word {
 
-  constructor(public str: string,
+  constructor(public title: string,
               public translation: string,
               public type: WordType,
-              public declension: Declension) {}
+              public singular: Declension,
+              public plural: Declension) {}
 
-  getInflection(caseType: CaseType, number: GrammaticalNumber): string {
-    return this.declension.getCaseDeclension(caseType).getInflection(number);
+  static fromDto(dto: {
+    title: string;
+    translation: string;
+    type: string;
+    singular: any;
+    plural: any;
+  }): Word {
+    let type = wordTypeLabels[dto.type];
+
+    if (!type)
+      throw new Error('Invalid DTO for Word');
+
+    return new Word(
+      dto.title,
+      dto.translation,
+      type,
+      Declension.fromDto(dto.singular),
+      Declension.fromDto(dto.plural)
+    );
   }
 
   getInflectedWord(caseType: CaseType, number: GrammaticalNumber): string {
-    return this.declension.radical + this.getInflection(caseType, number);
+    return this.getDeclension(number).getInflection(caseType);
+  }
+
+  getDeclension(number: GrammaticalNumber): Declension {
+    if (number === 'singular')
+      return this.singular;
+    else if (number === 'plural')
+      return this.plural;
+    else
+      throw new Error('Invalid grammatical number');
   }
 
   toString(): string {
     return `
-      ${this.str} (${this.type}): ${this.translation}\n
-      ${this.declension}
+      ${this.title} (${this.type}): ${this.translation}\n
+      Singular:\n${this.singular}\n
+      Plural:\n${this.plural}
     `;
   }
 }

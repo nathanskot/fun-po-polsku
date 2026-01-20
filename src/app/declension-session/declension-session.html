@@ -5,16 +5,19 @@
     <h4 style="display:table-cell; width: 20%;">Question amount: {{ filters().questionAmount }}</h4>
   </div>
 </div>
+
+@let questions = questions$ | async;
 @for (question of questions; track $index) {
   <div style="margin: 10px;">
     <h3>
-      Question {{ questions.indexOf(question) + 1 }}
+      Question {{ questions!.indexOf(question) + 1 }}
       ---
-      {{ question.word.str }} to {{ question.answer.caseType + ' ' + question.answer.number }}
+      {{ question.word.title }} to {{ question.answer.caseType + ' ' + question.answer.number }}
     </h3>
     @for (choice of question.choices; track $index) {
       <button matButton="outlined">{{ question.word.getInflectedWord(choice.caseType, choice.number) }}</button>
     }
   </div>
 }
+
 <br>

@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, OnInit, signal } from '@angular/core';
 import { WordType } from '../models/word-type.type';
 import { CaseType } from '../models/case-type.type';
 import { DeclensionQuestion } from '../models/declension-question';
@@ -6,11 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { DictionaryService } from '../services/dictionary.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-declension-session',
   imports: [
     MatButtonModule,
+    MatProgressSpinnerModule,
     AsyncPipe
 ],
   templateUrl: './declension-session.html',
@@ -25,25 +27,31 @@ export class DeclensionSession implements OnInit {
   }>();
 
   questions$!: Observable<DeclensionQuestion[]>;
+  currentQuestionIndex = signal(0);
+  hasAnswerBeenSubmitted = signal(false);
+  score = 0;
 
   constructor(private dictionaryService: DictionaryService) {}
 
   ngOnInit(): void {
-    // this.dictionaryService.getRandomWords(
-    //   this.filters().questionAmount,
-    //   this.filters().wordTypes
-    // ).subscribe(words => {
-    //   this.sessionWords = words;
-    //   for (const word of this.sessionWords) {
-    //     this.questions.push(new DeclensionQuestion(word, this.filters().caseTypes));
-    //   }
-    //   this.isLoading = false;
-    //   console.log(...this.questions);
-    // });
     this.questions$ = this.dictionaryService.getDeclensionQuestions(
       this.filters().questionAmount,
       this.filters().wordTypes,
       this.filters().caseTypes
     );
+  }
+
+  onSubmitAnswer(isAnswer: boolean): void {
+    if (this.hasAnswerBeenSubmitted())
+      return;
+
+    this.hasAnswerBeenSubmitted.set(true);
+    if (isAnswer)
+      this.score += 1;
+
+    setTimeout(() => {
+      this.currentQuestionIndex.update(value => value + 1);
+      this.hasAnswerBeenSubmitted.set(false);
+    }, 2000);
   }
 }

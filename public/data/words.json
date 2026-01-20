@@ -136,5 +136,28 @@
       "locative": "wolnych",
       "vocative": "wolni"
     }
+  },
+  {
+    "title": "miłość",
+    "translation": "love",
+    "type": "noun",
+    "singular": {
+      "nominative": "miłość",
+      "genitive": "miłości",
+      "dative": "miłości",
+      "accusative": "miłość",
+      "instrumental": "miłością",
+      "locative": "miłości",
+      "vocative": "miłości"
+    },
+    "plural": {
+      "nominative": "miłości",
+      "genitive": "miłości",
+      "dative": "miłościom",
+      "accusative": "miłości",
+      "instrumental": "miłościami",
+      "locative": "miłościach",
+      "vocative": "miłości"
+    }
   }
 ]

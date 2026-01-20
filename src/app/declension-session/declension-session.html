@@ -1,23 +1,25 @@
-<div style="display: table; padding: 10px;">
-  <div style="display: table-row; margin: 5px;">
-    <h4 style="display:table-cell; width: 20%;">Word types: {{ filters().wordTypes }}</h4>
-    <h4 style="display:table-cell; width: 40%;">Case types: {{ filters().caseTypes }}</h4>
-    <h4 style="display:table-cell; width: 20%;">Question amount: {{ filters().questionAmount }}</h4>
-  </div>
-</div>
-
 @let questions = questions$ | async;
-@for (question of questions; track $index) {
+@if (questions && currentQuestionIndex() < questions.length) {
+  @let question = questions[currentQuestionIndex()];
   <div style="margin: 10px;">
-    <h3>
-      Question {{ questions!.indexOf(question) + 1 }}
-      ---
+    <h2 style="text-align: center;">Score: {{ score }}/{{ questions.length }}</h2>
+    <h2 style="text-align: center;">Question {{ currentQuestionIndex() + 1 }}</h2>
+    <h3 style="text-align: center;">
       {{ question.word.title }} to {{ question.answer.caseType + ' ' + question.answer.number }}
     </h3>
-    @for (choice of question.choices; track $index) {
-      <button matButton="outlined">{{ question.word.getInflectedWord(choice.caseType, choice.number) }}</button>
-    }
+    <div style="margin: 10px; text-align: center;">
+      @for (choice of question.choices; track $index) {
+        <button
+          matButton="outlined"
+          [class.right-answer]="hasAnswerBeenSubmitted() && question.isAnswer(choice)"
+          [class.wrong-answer]="hasAnswerBeenSubmitted() && !question.isAnswer(choice)"
+          (click)="onSubmitAnswer(question.isAnswer(choice))"
+        >{{ question.word.getInflectedWord(choice.caseType, choice.number) }}</button>
+      }
+    </div>
   </div>
+} @else if (questions) {
+    <h2 style="text-align: center;">Final score: {{ score }}/{{ questions.length }}</h2>
 }
 
 <br>

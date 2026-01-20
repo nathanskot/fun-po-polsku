@@ -52,29 +52,24 @@ export class DeclensionGame {
     )
   });
   
-  disabledAny: boolean = true;
-  gameLaunched: boolean = false;
+  disabledAnyWordType = true;
+  disabledAnyCaseType = true;
+  gameLaunched = false;
 
-  onChooseAny(formControl: FormControl<string[] | null>): void {
-    if (!formControl.value)
-      return;
-
-    if (formControl.value.includes('any')) {
-      this.resetFilter(formControl);
-    }
+  onChooseAnyWordType(formControl: FormControl<string[] | null>): void {
+    this.chooseAny(formControl, 'wordType');
   }
 
-  onChooseFilter(formControl: FormControl<string[] | null>): void {
-    if (!formControl.value)
-      return;
+  onChooseAnyCaseType(formControl: FormControl<string[] | null>): void {
+    this.chooseAny(formControl, 'caseType');
+  }
 
-    if (formControl.value.length > 1 && formControl.value.includes('any')) {
-      formControl.setValue(formControl.value.filter(str => str !== 'any'));
-      this.disabledAny = false;
-    }
-    else if (formControl.value.length == 0) {
-      this.resetFilter(formControl);
-    }
+  onChooseWordType(formControl: FormControl<string[] | null>): void {
+    this.chooseType(formControl, 'wordType');
+  }
+
+  onChooseCaseType(formControl: FormControl<string[] | null>): void {
+    this.chooseType(formControl, 'caseType');
   }
 
   onLaunchGame(): void {
@@ -112,8 +107,38 @@ export class DeclensionGame {
     this.gameLaunched = false;
   }
 
-  private resetFilter(formControl: FormControl<string[] | null>) {
+  private chooseAny(formControl: FormControl<string[] | null>, filter: 'wordType' | 'caseType'): void {
+    if (!formControl.value)
+      return;
+
+    if (formControl.value.includes('any')) {
+      this.resetFilter(formControl, filter);
+    }
+  }
+
+  private chooseType(formControl: FormControl<string[] | null>, filter: 'wordType' | 'caseType'): void {
+    if (!formControl.value)
+      return;
+
+    if (formControl.value.length > 1 && formControl.value.includes('any')) {
+      formControl.setValue(formControl.value.filter(str => str !== 'any'));
+      this.setDisabledAny(filter, false);
+    } else if (formControl.value.length == 0) {
+      this.resetFilter(formControl, filter);
+    }
+  }
+
+  private resetFilter(formControl: FormControl<string[] | null>, filter: 'wordType' | 'caseType') {
     formControl.setValue(['any']);
-    this.disabledAny = true;
+    this.setDisabledAny(filter, true);
+  }
+
+  private setDisabledAny(filter: 'wordType' | 'caseType', value: boolean): void {
+    if (filter === 'wordType')
+      this.disabledAnyWordType = value;
+    else if (filter === 'caseType')
+      this.disabledAnyCaseType = value;
+    else
+      throw new Error('Invalid filter');
   }
 }

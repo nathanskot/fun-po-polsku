@@ -16,13 +16,15 @@ export class DeclensionQuestion {
   };
 
   constructor(public word: Word, selectedCaseTypes: CaseType[]) {
-    let inflectedWords: string[] = [];
-
     this.answer = {
       caseType: selectedCaseTypes[Math.floor(Math.random() * selectedCaseTypes.length)],
       number: Math.random() < 0.5 ? 'singular' : 'plural'
     }
     this.choices.push(this.answer);
+
+    let inflectedWords: string[] = [
+      this.word.getInflectedWord(this.answer.caseType, this.answer.number)
+    ];
 
     for (let i = 0; i < DECLENSION_DEFAULT_CHOICE_AMOUNT - 1; i++) {
       let choiceCaseType: CaseType;
@@ -33,6 +35,7 @@ export class DeclensionQuestion {
         choiceCaseType = Object.values(caseTypeLabels)[Math.floor(Math.random() * CASE_TYPE_AMOUNT)];
         choiceNumber = Math.random() < 0.5 ? 'singular' : 'plural' as GrammaticalNumber;
         choiceInflectedWord = this.word.getInflectedWord(choiceCaseType, choiceNumber);
+        console.log(`${choiceInflectedWord} ${inflectedWords.includes(choiceInflectedWord)}`);
       } while (inflectedWords.includes(choiceInflectedWord)); // To guarantee different options
 
       this.choices.push({

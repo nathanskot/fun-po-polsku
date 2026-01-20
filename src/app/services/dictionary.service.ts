@@ -4,7 +4,6 @@ import { WordType } from "../models/word-type.type";
 import { randomize } from "../app.utils";
 import { map, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { Declension } from "../models/declension";
 import { CaseType } from "../models/case-type.type";
 import { DeclensionQuestion } from "../models/declension-question";
 

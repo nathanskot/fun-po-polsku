@@ -5,8 +5,9 @@
       <mat-card-title>{{ word.title }}</mat-card-title>
       <mat-card-subtitle>{{ word.translation }}</mat-card-subtitle>
       <mat-card-actions>
-        <!-- TODO When login system is available, add possibility to save words -->
-        <button matButton style="position: absolute; top: 5px; right: 10px; box-shadow: 0;">SAVE</button>
+        <button matButton style="position: absolute; top: 5px; right: 10px; box-shadow: 0;" (click)="onToggleSaveWord(word)">
+          {{ isSaved(word) ? 'UNSAVE' : 'SAVE' }}
+        </button>
       </mat-card-actions>
     </mat-card-header>
     @if (areDeclensionsShown) {

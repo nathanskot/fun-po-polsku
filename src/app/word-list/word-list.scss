@@ -1,0 +1,9 @@
+.word-card {
+  margin: 8px;
+}
+
+@media (min-width: 768px) {
+  .word-card {
+    width: 50%;
+  }
+}

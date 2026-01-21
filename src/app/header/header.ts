@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -7,7 +8,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [
     RouterLink,
     RouterLinkActive,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
 ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
@@ -16,7 +18,7 @@ export class Header {
 
   shrinked: boolean = false;
 
-  onShrink() {
+  onToggleShrink() {
     this.shrinked = !this.shrinked;
   }
 }

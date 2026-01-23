@@ -1,0 +1,13 @@
+.word-card {
+  margin: 8px;
+}
+
+@media (min-width: 768px) {
+  .word-card {
+    width: 50%;
+  }
+}
+
+.filter-button {
+  margin: 10px;
+}

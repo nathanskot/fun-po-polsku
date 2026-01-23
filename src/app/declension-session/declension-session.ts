@@ -13,7 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     MatButtonModule,
     MatProgressSpinnerModule,
-    AsyncPipe
+    AsyncPipe,
 ],
   templateUrl: './declension-session.html',
   styleUrl: './declension-session.scss',

@@ -23,9 +23,10 @@ export class DictionaryService {
     });
   }
 
-  getWords(titles?: string[]): Observable<Word[]> {
+  getWords(titles?: string[], wordTypes?: WordType[]): Observable<Word[]> {
     return this.http.get<Word[]>(this.wordsApiUrl).pipe(
       map(words => words.filter(word => titles ? titles.includes(word.title) : true)),
+      map(words => words.filter(word => wordTypes ? wordTypes.includes(word.type) : true)),
       map(words => words.map(Word.fromDto))
     );
   }
@@ -46,8 +47,8 @@ export class DictionaryService {
     );
   }
 
-  getSavedWords(): Observable<Word[]> {
-    return this.getWords(this.savedWords);
+  getSavedWords(wordTypes?: WordType[]): Observable<Word[]> {
+    return this.getWords(this.savedWords, wordTypes);
   }
 
   saveWord(title: string): void {

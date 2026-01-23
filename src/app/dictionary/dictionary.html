@@ -1,6 +1,52 @@
 <h1>Dictionary</h1>
-@let words = words$ | async;
 
-@if (words) {
-  <app-word-list [words]="words" />
+<mat-button-toggle-group hideSingleSelectionIndicator="false" class="filter-button">
+  <mat-button-toggle [checked]="areDeclensionsShown" (change)="onToggleShowDeclensions()">
+    Show declensions
+  </mat-button-toggle>
+</mat-button-toggle-group>
+
+<h3>Filters</h3>
+<form [formGroup]="filtersForm">
+  <!-- <h4>Word types</h4> -->
+  <mat-button-toggle-group
+    formControlName="wordTypes"
+    class="filter-button"
+    multiple
+  >
+    @for (wordType of wordTypes; track wordType) {
+      <mat-button-toggle [value]="wordType">{{ wordType | titlecase }}</mat-button-toggle>
+    }
+  </mat-button-toggle-group>
+
+  <mat-button-toggle-group formControlName="savedWords" class="filter-button" multiple>
+    <mat-button-toggle>Saved words</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <button matButton="outlined" style="margin-left: 30px;" (click)="onApplyFilters()">Apply filters</button>
+</form>
+
+<mat-divider style="margin: 20px;" />
+
+@let words = words$ | async;
+@for (word of words; track word) {
+  <mat-card appearance="outlined" class="word-card">
+    <mat-card-header>
+      <mat-card-title>{{ word.title }}</mat-card-title>
+      <mat-card-subtitle>{{ word.translation }}</mat-card-subtitle>
+      <mat-card-actions>
+        <button matButton style="position: absolute; top: 5px; right: 50px;" (click)="onToggleSaveWord(word)">
+          {{ isSaved(word) ? 'UNSAVE' : 'SAVE' }}
+        </button>
+        <button matIconButton style="position: absolute; top: 5px; right: 10px;" (click)="onViewWord(word)">
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card-header>
+    @if (areDeclensionsShown) {
+      <mat-card-content>
+        <app-declension-table [word]="word" />
+      </mat-card-content>
+    }
+  </mat-card>
 }

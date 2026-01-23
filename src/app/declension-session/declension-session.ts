@@ -7,6 +7,7 @@ import { DictionaryService } from '../services/dictionary.service';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Loader } from '../loader/loader';
 
 @Component({
   selector: 'app-declension-session',
@@ -14,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatButtonModule,
     MatProgressSpinnerModule,
     AsyncPipe,
+    Loader
 ],
   templateUrl: './declension-session.html',
   styleUrl: './declension-session.scss',

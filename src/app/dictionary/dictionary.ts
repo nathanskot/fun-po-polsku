@@ -15,6 +15,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { WordType, wordTypeLabels } from '../models/word-type.type';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { Loader } from '../loader/loader';
 
 @Component({
   selector: 'app-dictionary',
@@ -31,6 +32,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonToggleModule,
     MatCheckboxModule,
     MatDividerModule,
+    Loader
 ],
   templateUrl: './dictionary.html',
   styleUrl: './dictionary.scss',
